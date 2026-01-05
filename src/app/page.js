@@ -54,8 +54,6 @@ const MainContent = () => {
 
 export default function Home() {
   return (
-   export default function Home() {
-  return (
     <LoadingProvider>
       <AudioProvider audioSrc="/Cigarettes.mp3">
         <div className="min-h-screen w-full overflow-x-hidden">
@@ -65,4 +63,3 @@ export default function Home() {
     </LoadingProvider>
   );
 }
-  
