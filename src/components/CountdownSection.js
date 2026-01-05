@@ -16,14 +16,7 @@ export default function CountdownSection() {
   const [pulseKey, setPulseKey] = useState(0);
 
   // ✅ Usar configuración centralizada
-  const {
-    fechaEvento,
-    fechaCompleta,
-    horaEvento,
-    nombre,
-    colores,
-    horaInicio,
-  } = useQuinceaneraConfig();
+  const { fechaCompleta, colores, horaInicio } = useQuinceaneraConfig();
 
   // Obtener clases de color
   const colorClasses = getPrimaryColorClasses();
@@ -71,7 +64,7 @@ export default function CountdownSection() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [fechaCompleta]);
+  }, [fechaCompleta, horaInicio]);
 
   // Traducción de unidades
   const timeUnits = {
