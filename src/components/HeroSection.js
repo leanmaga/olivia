@@ -5,57 +5,59 @@ import { motion } from "framer-motion";
 import { Crown } from "lucide-react";
 import { useQuinceaneraConfig } from "@/hooks/useQuinceaneraConfig";
 
-// Componente de destellos estilo Ghibli
-const GhibliSparkles = ({ count = 15, colores }) => {
-  const [sparkles, setSparkles] = useState([]);
+// Componente de burbujas submarinas
+const SeaBubbles = ({ count = 15, colores }) => {
+  const [bubbles, setBubbles] = useState([]);
 
   useEffect(() => {
-    const colors = [colores.primario[400], colores.terciario[400]];
-    const newSparkles = Array.from({ length: count }, (_, i) => ({
+    const newBubbles = Array.from({ length: count }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 8 + 4,
-      delay: Math.random() * 4,
-      duration: Math.random() * 3 + 2,
-      opacity: Math.random() * 0.8 + 0.2,
-      color: colors[Math.floor(Math.random() * colors.length)],
+      y: 100 + Math.random() * 20, // Empiezan desde abajo
+      size: Math.random() * 20 + 10, // Burbujas más grandes
+      delay: Math.random() * 5,
+      duration: Math.random() * 4 + 6, // Movimiento más lento
+      wobble: Math.random() * 30 - 15, // Movimiento lateral
     }));
-    setSparkles(newSparkles);
+    setBubbles(newBubbles);
   }, [count, colores]);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {sparkles.map((sparkle) => (
+      {bubbles.map((bubble) => (
         <motion.div
-          key={sparkle.id}
+          key={bubble.id}
           className="absolute rounded-full"
           style={{
-            left: `${sparkle.x}%`,
-            top: `${sparkle.y}%`,
-            width: `${sparkle.size}px`,
-            height: `${sparkle.size}px`,
-            backgroundColor: sparkle.color,
-            boxShadow: `0 0 ${sparkle.size * 2}px ${sparkle.color}`,
+            left: `${bubble.x}%`,
+            bottom: 0,
+            width: `${bubble.size}px`,
+            height: `${bubble.size}px`,
+            background: `radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3) 40%, rgba(255, 255, 255, 0.1))`,
+            border: `1px solid rgba(255, 255, 255, 0.4)`,
+            boxShadow: `
+              inset -2px -2px 4px rgba(255, 255, 255, 0.6),
+              0 0 8px rgba(255, 255, 255, 0.3),
+              0 2px 4px rgba(0, 0, 0, 0.1)
+            `,
           }}
           initial={{
-            opacity: 0,
-            scale: 0,
-            x: 0,
             y: 0,
+            opacity: 0,
+            scale: 0.5,
           }}
           animate={{
-            opacity: [0, sparkle.opacity, 0],
-            scale: [0, 1, 0.5, 1, 0],
-            x: [0, Math.random() * 20 - 10, Math.random() * 40 - 20],
-            y: [0, -Math.random() * 30 - 10, -Math.random() * 60 - 20],
-            rotate: [0, 180, 360],
+            y: [-20, -window.innerHeight - 100], // Suben hasta salir de la pantalla
+            x: [0, bubble.wobble, -bubble.wobble, bubble.wobble * 0.5, 0],
+            opacity: [0, 0.8, 0.8, 0.6, 0],
+            scale: [0.5, 1, 1, 0.8, 0.3],
           }}
           transition={{
-            duration: sparkle.duration,
-            delay: sparkle.delay,
+            duration: bubble.duration,
+            delay: bubble.delay,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "easeOut",
+            times: [0, 0.1, 0.5, 0.8, 1],
           }}
         />
       ))}
@@ -63,24 +65,19 @@ const GhibliSparkles = ({ count = 15, colores }) => {
   );
 };
 
-// Componente de partículas grandes para efectos
-const ColorfulParticles = ({ count = 8, colores }) => {
+// Componente de burbujas más pequeñas
+const SmallBubbles = ({ count = 8, colores }) => {
   const [particles, setParticles] = useState([]);
 
   useEffect(() => {
-    const colors = [
-      colores.primario[400],
-      colores.terciario[400],
-      colores.primario[500],
-    ];
     const newParticles = Array.from({ length: count }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 12 + 8,
-      delay: Math.random() * 2,
-      duration: Math.random() * 4 + 3,
-      color: colors[Math.floor(Math.random() * colors.length)],
+      y: 100 + Math.random() * 10,
+      size: Math.random() * 12 + 6,
+      delay: Math.random() * 3,
+      duration: Math.random() * 5 + 4,
+      wobble: Math.random() * 20 - 10,
     }));
     setParticles(newParticles);
   }, [count, colores]);
@@ -93,30 +90,39 @@ const ColorfulParticles = ({ count = 8, colores }) => {
           className="absolute rounded-full"
           style={{
             left: `${particle.x}%`,
-            top: `${particle.y}%`,
+            bottom: 0,
             width: `${particle.size}px`,
             height: `${particle.size}px`,
-            backgroundColor: particle.color,
-            boxShadow: `0 0 ${particle.size * 3}px ${particle.color}`,
+            background: `radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4) 35%, rgba(255, 255, 255, 0.1))`,
+            border: `0.5px solid rgba(255, 255, 255, 0.5)`,
+            boxShadow: `
+              inset -1px -1px 2px rgba(255, 255, 255, 0.7),
+              0 0 6px rgba(255, 255, 255, 0.2)
+            `,
           }}
           initial={{
-            opacity: 0,
-            scale: 0,
-            x: 0,
             y: 0,
+            opacity: 0,
+            scale: 0.3,
           }}
           animate={{
-            opacity: [0, 0.8, 0],
-            scale: [0, 1.2, 0.8, 1.2, 0],
-            x: [0, Math.random() * 30 - 15, Math.random() * 50 - 25],
-            y: [0, -Math.random() * 40 - 20, -Math.random() * 80 - 30],
-            rotate: [0, 180, 360],
+            y: [-10, -window.innerHeight - 50],
+            x: [
+              0,
+              particle.wobble,
+              -particle.wobble * 0.8,
+              particle.wobble * 0.5,
+              0,
+            ],
+            opacity: [0, 0.9, 0.9, 0.7, 0],
+            scale: [0.3, 1, 1, 0.6, 0.2],
           }}
           transition={{
             duration: particle.duration,
             delay: particle.delay,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "easeOut",
+            times: [0, 0.1, 0.5, 0.8, 1],
           }}
         />
       ))}
@@ -143,14 +149,25 @@ export default function HeroSection() {
       className="min-h-screen flex items-center justify-center relative overflow-hidden"
     >
       {/* Tapiz con opacidad para que se vea sobre el fondo claro */}
+      {/* Mobile: verticalHero.png */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 md:hidden"
+        style={{
+          backgroundImage: `url('/assets/verticalHero.png')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          mixBlendMode: "multiply",
+        }}
+      />
+      {/* Desktop: tapiz.png */}
+      <div
+        className="absolute inset-0 hidden md:block"
         style={{
           backgroundImage: `url('/assets/tapiz.png')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-
           mixBlendMode: "multiply",
         }}
       />
@@ -170,8 +187,8 @@ export default function HeroSection() {
         }}
       />
 
-      <GhibliSparkles count={25} colores={colores} />
-      <ColorfulParticles count={12} colores={colores} />
+      <SeaBubbles count={20} colores={colores} />
+      <SmallBubbles count={15} colores={colores} />
 
       <div className="text-center z-10 px-4 relative">
         <motion.div
@@ -242,8 +259,8 @@ export default function HeroSection() {
                 {edad}
               </motion.span>
 
-              {/* Partículas alrededor del número */}
-              <ColorfulParticles count={6} colores={colores} />
+              {/* Burbujas alrededor del número */}
+              <SmallBubbles count={8} colores={colores} />
             </motion.div>
 
             <div

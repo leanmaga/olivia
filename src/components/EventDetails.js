@@ -1,18 +1,134 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  Heart,
-  Sparkles,
-  Crown,
-  Gift,
-  Copy,
-  Check,
-} from "lucide-react";
+import { useState, useEffect } from "react";
+import { Calendar, Clock, MapPin, Sparkles, Crown } from "lucide-react";
 import { useQuinceaneraConfig } from "@/hooks/useQuinceaneraConfig";
+
+import { motion } from "framer-motion";
+
+const SeaBubbles = ({ count = 15, colores }) => {
+  const [bubbles, setBubbles] = useState([]);
+
+  useEffect(() => {
+    const newBubbles = Array.from({ length: count }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: 100 + Math.random() * 20, // Empiezan desde abajo
+      size: Math.random() * 20 + 10, // Burbujas más grandes
+      delay: Math.random() * 5,
+      duration: Math.random() * 4 + 6, // Movimiento más lento
+      wobble: Math.random() * 30 - 15, // Movimiento lateral
+    }));
+    setBubbles(newBubbles);
+  }, [count, colores]);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {bubbles.map((bubble) => (
+        <motion.div
+          key={bubble.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${bubble.x}%`,
+            bottom: 0,
+            width: `${bubble.size}px`,
+            height: `${bubble.size}px`,
+            background: `radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3) 40%, rgba(255, 255, 255, 0.1))`,
+            border: `1px solid rgba(255, 255, 255, 0.4)`,
+            boxShadow: `
+              inset -2px -2px 4px rgba(255, 255, 255, 0.6),
+              0 0 8px rgba(255, 255, 255, 0.3),
+              0 2px 4px rgba(0, 0, 0, 0.1)
+            `,
+          }}
+          initial={{
+            y: 0,
+            opacity: 0,
+            scale: 0.5,
+          }}
+          animate={{
+            y: [-20, -window.innerHeight - 100], // Suben hasta salir de la pantalla
+            x: [0, bubble.wobble, -bubble.wobble, bubble.wobble * 0.5, 0],
+            opacity: [0, 0.8, 0.8, 0.6, 0],
+            scale: [0.5, 1, 1, 0.8, 0.3],
+          }}
+          transition={{
+            duration: bubble.duration,
+            delay: bubble.delay,
+            repeat: Infinity,
+            ease: "easeOut",
+            times: [0, 0.1, 0.5, 0.8, 1],
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+// Componente de burbujas más pequeñas
+const SmallBubbles = ({ count = 8, colores }) => {
+  const [particles, setParticles] = useState([]);
+
+  useEffect(() => {
+    const newParticles = Array.from({ length: count }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: 100 + Math.random() * 10,
+      size: Math.random() * 12 + 6,
+      delay: Math.random() * 3,
+      duration: Math.random() * 5 + 4,
+      wobble: Math.random() * 20 - 10,
+    }));
+    setParticles(newParticles);
+  }, [count, colores]);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {particles.map((particle) => (
+        <motion.div
+          key={particle.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${particle.x}%`,
+            bottom: 0,
+            width: `${particle.size}px`,
+            height: `${particle.size}px`,
+            background: `radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4) 35%, rgba(255, 255, 255, 0.1))`,
+            border: `0.5px solid rgba(255, 255, 255, 0.5)`,
+            boxShadow: `
+              inset -1px -1px 2px rgba(255, 255, 255, 0.7),
+              0 0 6px rgba(255, 255, 255, 0.2)
+            `,
+          }}
+          initial={{
+            y: 0,
+            opacity: 0,
+            scale: 0.3,
+          }}
+          animate={{
+            y: [-10, -window.innerHeight - 50],
+            x: [
+              0,
+              particle.wobble,
+              -particle.wobble * 0.8,
+              particle.wobble * 0.5,
+              0,
+            ],
+            opacity: [0, 0.9, 0.9, 0.7, 0],
+            scale: [0.3, 1, 1, 0.6, 0.2],
+          }}
+          transition={{
+            duration: particle.duration,
+            delay: particle.delay,
+            repeat: Infinity,
+            ease: "easeOut",
+            times: [0, 0.1, 0.5, 0.8, 1],
+          }}
+        />
+      ))}
+    </div>
+  );
+};
 
 export default function DelicateEventDetails() {
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -104,6 +220,9 @@ export default function DelicateEventDetails() {
               style={{ color: colores.primario[600] }}
             />
           </div>
+
+          <SeaBubbles count={20} colores={colores} />
+          <SmallBubbles count={15} colores={colores} />
 
           <h2
             className="font-Emilys_Candy text-xl md:text-2xl font-semibold mb-2"

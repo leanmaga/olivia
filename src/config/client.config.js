@@ -32,27 +32,26 @@ export const clientConfig = {
     pais: "Argentina",
     // URLs de mapas (se generan automáticamente pero puedes personalizarlas)
     googleMapsUrl: "https://maps.app.goo.gl/a98M1oL8oEfs5jTp6?g_st=iW", // Déjalo vacío para que se genere automáticamente
-    wazeUrl:
-      "https://ul.waze.com/ul?place=ChIJHzAU50vAvJURDGwKF_UHSCA&ll=-34.70682730%2C-58.71007240&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location", // Déjalo vacío para que se genere automáticamente
+    wazeUrl: "https://waze.com/ul/h69y4qfqh2", // Déjalo vacío para que se genere automáticamente
     // O proporciona URLs personalizadas:
     // googleMapsUrl: 'https://maps.google.com/?q=...',
     // wazeUrl: 'https://waze.com/ul?q=...',
 
     // Imágenes del salón (ubicadas en /public/assets/)
     imagenesSalon: [
-      "/assets/salon1.png",
-      "/assets/salon2.png",
-      "/assets/salon3.png",
-      "/assets/salon4.png",
+      "/assets/quinta1.jpeg",
+      "/assets/quinta2.jpeg",
+      "/assets/quinta3.jpeg",
+      "/assets/quinta4.jpeg",
     ],
   },
 
   // 👨‍👩‍👧‍👦 INFORMACIÓN DE CONTACTO
   contacto: {
     nombreFamilia: "Familia ...",
-    telefono: "+54 9 11 2776-4823",
+    telefono: "+54 9 11 2163-0371",
     email: "contacto@example.com",
-    whatsapp: "+541127764823", // Sin espacios ni guiones
+    whatsapp: "+541121630371", // Sin espacios ni guiones
   },
 
   // 📱 REDES SOCIALES
@@ -145,7 +144,7 @@ export const clientConfig = {
 
   // 🔐 CONFIGURACIÓN DE ADMINISTRADOR
   admin: {
-    password: "admin123", // ⚠️ CAMBIAR ESTO en producción
+    password: "olivia123", // ⚠️ CAMBIAR ESTO en producción
     dashboardUrl: "/admin",
   },
 
